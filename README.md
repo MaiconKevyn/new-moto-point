@@ -11,7 +11,7 @@ experiência rápida no celular e facilitar o contato direto pelo WhatsApp.
 - Dados de contato, horários, localização e rota no Google Maps
 - Links de WhatsApp com mensagens prontas para cada produto ou serviço
 - SEO local, dados estruturados e imagem de compartilhamento
-- Site estático, sem JavaScript de runtime ou dependência de servidor
+- Site estático, com pequenos scripts de interação e sem servidor de aplicação
 
 ## Tecnologias
 
@@ -63,13 +63,36 @@ inclua o item na vitrine desejada.
 
 ## Publicação
 
-Cada push na branch `main` executa o workflow em
-[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), que valida,
-compila o projeto e atualiza a branch `deploy` com os arquivos estáticos.
-A Hostinger deve apontar para a branch `deploy` no diretório `public_html`.
+Este fork, [`MaiconKevyn/new-moto-point`](https://github.com/MaiconKevyn/new-moto-point),
+é usado para publicar pela integração de aplicações Node.js da Hostinger.
+O projeto original permanece em
+[`NeoFahrenheit/new-moto-point`](https://github.com/NeoFahrenheit/new-moto-point).
 
-O guia completo de configuração da variável `SITE_URL`, Git na Hostinger,
-webhook, SSL, cache e solução de problemas está em [DEPLOY.md](DEPLOY.md).
+Configuração no hPanel:
+
+| Opção | Valor |
+| --- | --- |
+| Repositório | `MaiconKevyn/new-moto-point` |
+| Branch | `main` |
+| Framework | Astro |
+| Node.js | 24.x |
+| Diretório raiz | `design` |
+| Gerenciador de pacotes | npm |
+| Comando de build | `npm run build` |
+| Diretório de saída | `dist` |
+| Variável `SITE_URL` | `https://dimgrey-bat-359770.hostingersite.com` |
+
+A Hostinger compila o código do fork e publica os arquivos estáticos. Com o
+deploy automático habilitado no hPanel, novos pushes na `main` deste fork
+geram uma nova publicação. Alterações no repositório original precisam ser
+sincronizadas com o fork para chegar ao site.
+
+Ao adotar um domínio próprio, atualize `SITE_URL` no hPanel e publique novamente.
+
+O arquivo [DEPLOY.md](DEPLOY.md) e o workflow
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) descrevem o fluxo
+alternativo de Git clássico com uma branch `deploy`. Eles não são necessários
+para a publicação direta pela integração Node.js configurada neste fork.
 
 ## Estrutura do repositório
 
