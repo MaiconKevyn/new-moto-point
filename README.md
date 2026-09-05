@@ -82,10 +82,28 @@ Configuração no hPanel:
 | Diretório de saída | `dist` |
 | Variável `SITE_URL` | `https://dimgrey-bat-359770.hostingersite.com` |
 
-A Hostinger compila o código do fork e publica os arquivos estáticos. Com o
-deploy automático habilitado no hPanel, novos pushes na `main` deste fork
-geram uma nova publicação. Alterações no repositório original precisam ser
-sincronizadas com o fork para chegar ao site.
+A Hostinger executa `npm run build` na `main`. Esse comando compila a versão
+principal e busca as duas branches do fork para compilar os outros layouts:
+
+| Branch no fork | Endereço |
+| --- | --- |
+| `main` | [Versão original](https://dimgrey-bat-359770.hostingersite.com/) |
+| `versao-2-asfalto` | [Asfalto](https://dimgrey-bat-359770.hostingersite.com/asfalto/) |
+| `versao-3-editorial` | [Editorial](https://dimgrey-bat-359770.hostingersite.com/editorial/) |
+
+As três versões usam uma única aplicação da Hostinger. Cada uma mantém seus
+próprios estilos, fontes, imagens, sitemap e caminhos de navegação. O build
+requer Git e acesso ao GitHub e ao npm; cada branch instala suas dependências
+com `npm ci`. Os commits das versões adicionais ficam registrados em
+`dist/versions.json`.
+
+Novos pushes na `main` geram uma publicação automática. Depois de alterar
+`versao-2-asfalto` ou `versao-3-editorial`, use **Redeploy** no hPanel: o build
+da `main` buscará as versões mais recentes das duas branches. Alterações no
+repositório original precisam ser sincronizadas com o fork primeiro.
+
+Para compilar apenas o frontend do checkout atual, use `npm run build:single`
+na `main` ou `npm run astro -- build` em qualquer uma das branches.
 
 Ao adotar um domínio próprio, atualize `SITE_URL` no hPanel e publique novamente.
 
