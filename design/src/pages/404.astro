@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Icone from '../components/Icone.astro';
 import { site, contato, zap } from '../data/site';
 
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const atalhos = [
   { href: '/#ofertas', rotulo: 'Ofertas da loja', icone: 'estrela' },
   { href: '/#oficina', rotulo: 'Serviços da oficina', icone: 'ferramentas' },
@@ -36,7 +37,7 @@ const atalhos = [
 
       <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
         <a
-          href="/"
+          href={basePath}
           class="group flex items-center justify-center gap-2.5 rounded-xl bg-moto-500 px-7 py-4 font-bold text-white shadow-lg shadow-moto-700/30 transition-all hover:bg-moto-600"
         >
           <Icone nome="moto" class="size-5.5" />
@@ -58,7 +59,7 @@ const atalhos = [
           atalhos.map((a) => (
             <li>
               <a
-                href={a.href}
+                href={`${basePath}${a.href.slice(1)}`}
                 class="flex items-center gap-2 rounded-lg border border-white/12 bg-white/4 px-4 py-2.5 text-sm font-semibold text-white/75 transition-all hover:border-moto-500/50 hover:bg-moto-500/10 hover:text-white"
               >
                 <Icone nome={a.icone} class="size-4.5 text-moto-400" />
