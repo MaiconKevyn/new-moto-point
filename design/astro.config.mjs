@@ -31,6 +31,8 @@ if (site === PLACEHOLDER) {
 
 export default defineConfig({
   site,
+  base: process.env.SITE_BASE_PATH || '/',
+  trailingSlash: 'always',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
