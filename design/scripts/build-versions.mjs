@@ -1,6 +1,5 @@
 import { execFileSync } from 'node:child_process';
 import { cp, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadEnv } from 'vite';
@@ -29,7 +28,9 @@ function run(command, args, cwd, base = '/') {
 
 // Each branch has its own dependencies, styles, fonts, and sharing image.
 // Checkouts are isolated and removed after the build, including on failure.
-const temporary = await mkdtemp(join(tmpdir(), 'new-moto-point-build-'));
+// Hostinger mounts /tmp without executable permissions; native dependencies
+// such as esbuild must be installed in the project's build filesystem.
+const temporary = await mkdtemp(join(project, '.build-versions-'));
 const published = [{ branch: 'main', path: '/' }];
 
 try {

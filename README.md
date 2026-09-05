@@ -80,16 +80,16 @@ Configuração no hPanel:
 | Gerenciador de pacotes | npm |
 | Comando de build | `npm run build` |
 | Diretório de saída | `dist` |
-| Variável `SITE_URL` | `https://dimgrey-bat-359770.hostingersite.com` |
+| Variável `SITE_URL` | `https://newmotopoint1.umbrastudio.com.br` |
 
 A Hostinger executa `npm run build` na `main`. Esse comando compila a versão
 principal e busca as duas branches do fork para compilar os outros layouts:
 
 | Branch no fork | Endereço |
 | --- | --- |
-| `main` | [Versão original](https://dimgrey-bat-359770.hostingersite.com/) |
-| `versao-2-asfalto` | [Asfalto](https://dimgrey-bat-359770.hostingersite.com/asfalto/) |
-| `versao-3-editorial` | [Editorial](https://dimgrey-bat-359770.hostingersite.com/editorial/) |
+| `main` | [Versão original](https://newmotopoint1.umbrastudio.com.br/) |
+| `versao-2-asfalto` | [Asfalto](https://newmotopoint1.umbrastudio.com.br/asfalto/) |
+| `versao-3-editorial` | [Editorial](https://newmotopoint1.umbrastudio.com.br/editorial/) |
 
 As três versões usam uma única aplicação da Hostinger. Cada uma mantém seus
 próprios estilos, fontes, imagens, sitemap e caminhos de navegação. O build
