@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import Icone from './Icone.astro';
-import TituloSecao from './TituloSecao.astro';
 import { servicos, especialidades, fotos } from '../data/servicos';
 import { zap, zapServico } from '../data/site';
 ---
@@ -14,15 +13,8 @@ import { zap, zapServico } from '../data/site';
   </div>
 
   <div class="relative mx-auto max-w-7xl px-4 sm:px-6">
-    <TituloSecao
-      sobretitulo="Oficina própria"
-      titulo="Serviço feito na bancada,"
-      destaque="explicado antes de começar."
-      texto="Mecânicos com formação SENAC RS. Você aprova o orçamento da peça e da mão de obra antes de qualquer coisa ser desmontada."
-    />
-
     <!-- Serviços em destaque, com foto -->
-    <div class="mt-14 grid gap-5 lg:grid-cols-3">
+    <div id="servicos" class="grid scroll-mt-28 gap-5 lg:grid-cols-3">
       {
         servicos
           .filter((s) => s.destaque)
@@ -96,7 +88,8 @@ import { zap, zapServico } from '../data/site';
 
     <!-- Especialidades de mão de obra -->
     <div
-      class="reveal mt-14 overflow-hidden rounded-2xl border border-white/8 bg-linear-to-br from-graphite-850 to-graphite-900"
+      id="especialidades"
+      class="reveal mt-14 scroll-mt-28 overflow-hidden rounded-2xl border border-white/8 bg-linear-to-br from-graphite-850 to-graphite-900"
     >
       <div class="grid lg:grid-cols-[1.15fr_1fr]">
         <div class="p-7 lg:p-10">

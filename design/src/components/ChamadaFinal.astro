@@ -1,0 +1,66 @@
+---
+import Icone from './Icone.astro';
+import { contato, endereco, zap } from '../data/site';
+---
+
+<!-- Fecho da home: o último empurrão antes do rodapé. -->
+<section class="relative overflow-hidden bg-moto-600 py-16 lg:py-20">
+  <div class="grid-texture absolute inset-0 opacity-30"></div>
+  <div class="absolute -top-24 -right-24 size-[30rem] rounded-full bg-moto-400/25 blur-[120px]"></div>
+
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+      <div class="reveal max-w-xl">
+        <h2 class="display text-4xl text-white sm:text-5xl">
+          Sua moto parada é <span class="italic">dinheiro parado.</span>
+        </h2>
+        <p class="mt-4 text-[15px] leading-relaxed text-white/80">
+          Manda o modelo da moto e o que está acontecendo. A gente responde no horário da loja,
+          passa o orçamento e, se precisar, busca a moto na região.
+        </p>
+      </div>
+
+      <div class="reveal flex flex-col gap-3 sm:flex-row lg:flex-col lg:items-stretch">
+        <a
+          href={zap()}
+          target="_blank"
+          rel="noopener"
+          class="group flex items-center justify-center gap-2.5 rounded-xl bg-graphite-950 px-7 py-4 font-bold text-white transition-all hover:bg-zap-500 hover:text-graphite-950"
+        >
+          <Icone nome="whatsapp" class="size-5.5" />
+          Chamar no WhatsApp
+          <Icone
+            nome="seta"
+            class="size-5 transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
+        <a
+          href={contato.telefoneFixoHref}
+          class="flex items-center justify-center gap-2.5 rounded-xl border border-white/40 px-7 py-4 font-bold text-white transition-all hover:bg-white hover:text-moto-600"
+        >
+          <Icone nome="telefone" class="size-5" />
+          {contato.telefoneFixo}
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="reveal mt-12 flex flex-col gap-4 border-t border-white/25 pt-8 text-sm text-white/85 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p class="flex items-start gap-2.5 sm:items-center">
+        <Icone nome="local" class="mt-0.5 size-4.5 shrink-0 sm:mt-0" />
+        {endereco.rua}, {endereco.complemento} — {endereco.bairro}, {endereco.cidade}/{endereco.estado}
+      </p>
+      <a
+        href="/contato/"
+        class="group inline-flex shrink-0 items-center gap-2 font-bold text-white underline decoration-white/40 decoration-2 underline-offset-4 transition-colors hover:decoration-white"
+      >
+        Mapa, horários e canais
+        <Icone
+          nome="seta"
+          class="size-4.5 transition-transform duration-300 group-hover:translate-x-1"
+        />
+      </a>
+    </div>
+  </div>
+</section>

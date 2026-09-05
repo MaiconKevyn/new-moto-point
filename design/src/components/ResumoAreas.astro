@@ -1,0 +1,85 @@
+---
+import Icone from './Icone.astro';
+import TituloSecao from './TituloSecao.astro';
+import { ofertas, vitrines } from '../data/catalogo';
+import { servicos, especialidades } from '../data/servicos';
+import { endereco } from '../data/site';
+
+// Números tirados do próprio catálogo — não há contagem escrita à mão que
+// possa ficar desatualizada quando um produto entrar ou sair.
+const totalProdutos =
+  ofertas.length + vitrines.reduce((soma, v) => soma + v.itens.length, 0);
+
+const areas = [
+  {
+    href: '/loja/',
+    icone: 'loja',
+    titulo: 'A loja',
+    texto: `${totalProdutos} itens no catálogo: luvas e roupas térmicas em oferta, capa de chuva, baú, grelha, viseira original, óleo e peça de reposição.`,
+    marcador: `${totalProdutos} itens`,
+    acao: 'Ver o catálogo',
+  },
+  {
+    href: '/oficina/',
+    icone: 'ferramentas',
+    titulo: 'A oficina',
+    texto: `${servicos.length} serviços na bancada e mão de obra certificada SENAC RS para ${especialidades.map((e) => e.nome.toLowerCase()).join(', ')}.`,
+    marcador: `${servicos.length} serviços`,
+    acao: 'Ver os serviços',
+  },
+  {
+    href: '/contato/',
+    icone: 'local',
+    titulo: 'Onde estamos',
+    texto: `${endereco.rua}, ${endereco.complemento}. Bairro ${endereco.bairro}, com mapa, horários e todos os canais de atendimento.`,
+    marcador: 'Seg a sáb',
+    acao: 'Como chegar',
+  },
+];
+---
+
+<section class="relative overflow-hidden bg-graphite-950 py-20 lg:py-24">
+  <div class="grid-texture absolute inset-0 opacity-40"></div>
+
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6">
+    <TituloSecao
+      centro
+      sobretitulo="O que você procura"
+      titulo="Três caminhos,"
+      destaque="um endereço só."
+      texto="A loja, a oficina e o atendimento agora têm cada um a sua página — vá direto ao que você precisa."
+    />
+
+    <div class="mt-14 grid gap-5 lg:grid-cols-3">
+      {
+        areas.map((a, i) => (
+          <a
+            href={a.href}
+            class="reveal group flex flex-col rounded-2xl border border-white/8 bg-graphite-900 p-7 transition-all duration-300 hover:border-moto-500/50 hover:bg-graphite-850 lg:p-8"
+            style={`--reveal-delay:${i * 90}ms`}
+          >
+            <div class="flex items-center justify-between gap-4">
+              <span class="flex size-13 items-center justify-center rounded-xl bg-moto-500/12 text-moto-500 transition-colors duration-300 group-hover:bg-moto-500 group-hover:text-white">
+                <Icone nome={a.icone} class="size-6.5" />
+              </span>
+              <span class="rounded-full border border-white/12 px-3 py-1 text-[11px] font-bold tracking-wide text-white/50 uppercase">
+                {a.marcador}
+              </span>
+            </div>
+
+            <h3 class="display mt-6 text-3xl tracking-wide text-white">{a.titulo}</h3>
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-white/55">{a.texto}</p>
+
+            <span class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-moto-400 transition-colors group-hover:text-moto-300">
+              {a.acao}
+              <Icone
+                nome="seta"
+                class="size-4.5 transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

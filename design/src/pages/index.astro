@@ -2,23 +2,17 @@
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import FaixaConfianca from '../components/FaixaConfianca.astro';
+import ResumoAreas from '../components/ResumoAreas.astro';
 import Ofertas from '../components/Ofertas.astro';
-import Oficina from '../components/Oficina.astro';
-import ComoFunciona from '../components/ComoFunciona.astro';
-import Pecas from '../components/Pecas.astro';
-import Acessorios from '../components/Acessorios.astro';
 import Loja from '../components/Loja.astro';
-import Contato from '../components/Contato.astro';
+import ChamadaFinal from '../components/ChamadaFinal.astro';
 ---
 
 <Base>
   <Hero />
   <FaixaConfianca />
-  <Ofertas />
-  <Oficina />
-  <ComoFunciona />
-  <Pecas />
-  <Acessorios />
+  <ResumoAreas />
+  <Ofertas limite={4} />
   <Loja />
-  <Contato />
+  <ChamadaFinal />
 </Base>

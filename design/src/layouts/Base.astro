@@ -10,12 +10,15 @@ interface Props {
   descricao?: string;
   /** Usado na 404: página útil para quem chega, inútil no índice do Google. */
   semIndexacao?: boolean;
+  /** Nome da página no caminho de migalhas. Só as páginas internas passam. */
+  migalha?: string;
 }
 
 const {
   titulo = `${site.nome} — Peças, Acessórios e Oficina de Motos em Porto Alegre`,
   descricao = site.descricao,
   semIndexacao = false,
+  migalha,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -80,6 +83,18 @@ const jsonLd = {
     'Tele entrega de peças',
   ].map((n) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: n } })),
 };
+
+// Caminho de migalhas para a busca — só existe nas páginas internas.
+const migalhasLd = migalha
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Início', item: new URL('/', Astro.site).href },
+        { '@type': 'ListItem', position: 2, name: migalha, item: canonical },
+      ],
+    }
+  : null;
 ---
 
 <!doctype html>
@@ -118,6 +133,11 @@ const jsonLd = {
     <link rel="sitemap" href={`${basePath}sitemap-index.xml`} />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+    {
+      migalhasLd && (
+        <script type="application/ld+json" set:html={JSON.stringify(migalhasLd)} is:inline />
+      )
+    }
   </head>
 
   <body>

@@ -1,0 +1,65 @@
+---
+import Icone from './Icone.astro';
+
+/**
+ * Topo das páginas internas: caminho de migalhas + o `<h1>` da página.
+ *
+ * Cada página precisa de um `<h1>` próprio — é ele que o Google lê como
+ * assunto da URL. Os títulos das seções abaixo continuam sendo `<h2>`.
+ */
+interface Props {
+  sobretitulo: string;
+  titulo: string;
+  destaque?: string;
+  texto?: string;
+  /** Nome da página no caminho de migalhas. */
+  migalha: string;
+}
+
+const { sobretitulo, titulo, destaque, texto, migalha } = Astro.props;
+---
+
+<section class="relative overflow-hidden border-b border-white/8 bg-graphite-950">
+  <div class="grid-texture absolute inset-0 opacity-40"></div>
+  <div class="absolute -top-40 -right-32 size-[34rem] rounded-full bg-moto-700/14 blur-[140px]">
+  </div>
+
+  <div class="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:py-16">
+    <nav aria-label="Caminho de navegação">
+      <ol class="flex flex-wrap items-center gap-2 text-[13px] text-white/45">
+        <li>
+          <a href="/" class="transition-colors hover:text-white">Início</a>
+        </li>
+        <li aria-hidden="true" class="text-white/25">/</li>
+        <li class="font-semibold text-white/70" aria-current="page">{migalha}</li>
+      </ol>
+    </nav>
+
+    <p class="mt-7 flex items-center gap-3 text-xs font-bold tracking-[0.28em] text-moto-500 uppercase">
+      <span class="skew-tag block h-3.5 w-1.5 bg-moto-500"></span>
+      {sobretitulo}
+    </p>
+
+    <h1 class="display mt-4 max-w-4xl text-4xl text-white sm:text-5xl lg:text-6xl">
+      {titulo}
+      {destaque && <span class="text-moto-500 italic"> {destaque}</span>}
+    </h1>
+
+    {
+      texto && (
+        <p class="mt-5 max-w-2xl text-[15px] leading-relaxed text-white/55 sm:text-base">{texto}</p>
+      )
+    }
+
+    <a
+      href="/"
+      class="group mt-8 inline-flex items-center gap-2 text-sm font-bold text-white/50 transition-colors hover:text-moto-400"
+    >
+      <Icone
+        nome="seta"
+        class="size-4.5 rotate-180 transition-transform duration-300 group-hover:-translate-x-1"
+      />
+      Voltar para o início
+    </a>
+  </div>
+</section>

@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import Oficina from '../components/Oficina.astro';
+import ComoFunciona from '../components/ComoFunciona.astro';
+import { site } from '../data/site';
+import { servicos } from '../data/servicos';
+---
+
+<Base
+  titulo={`Oficina de Motos na Av. Farrapos — Mão de Obra SENAC RS | ${site.nome}`}
+  descricao="Oficina de motos em Porto Alegre com mecânicos certificados SENAC RS: troca de óleo, caixa de direção, centragem de roda, carga de bateria, frizzo de roda e capa de banco. Também motor, embreagem, elétrica, suspensão e injeção eletrônica."
+  migalha="Oficina"
+>
+  <CabecalhoPagina
+    migalha="Oficina"
+    sobretitulo="Oficina própria"
+    titulo="Serviço feito na bancada,"
+    destaque="explicado antes de começar."
+    texto={`${servicos.length} serviços com mão de obra certificada SENAC RS, na Av. Farrapos desde ${site.desde}. Você aprova o orçamento da peça e da mão de obra antes de qualquer coisa ser desmontada.`}
+  />
+
+  <Oficina />
+  <ComoFunciona />
+</Base>

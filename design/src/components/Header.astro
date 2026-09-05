@@ -3,15 +3,9 @@ import { Image } from 'astro:assets';
 import Icone from './Icone.astro';
 import logo from '../assets/img/brand/logo-new-moto.png';
 import { site, contato, zap } from '../data/site';
+import { navegacao, ehAtivo } from '../data/navegacao';
 
-const nav = [
-  { href: '#ofertas', rotulo: 'Ofertas' },
-  { href: '#oficina', rotulo: 'Oficina' },
-  { href: '#pecas', rotulo: 'Peças' },
-  { href: '#acessorios', rotulo: 'Acessórios' },
-  { href: '#loja', rotulo: 'A loja' },
-  { href: '#contato', rotulo: 'Contato' },
-];
+const caminho = Astro.url.pathname;
 ---
 
 <header
@@ -44,11 +38,7 @@ const nav = [
   </div>
 
   <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6">
-    <a
-      href="#topo"
-      class="group flex shrink-0 items-center gap-3"
-      aria-label={`${site.nome} — início`}
-    >
+    <a href="/" class="group flex shrink-0 items-center gap-3" aria-label={`${site.nome} — início`}>
       <Image
         src={logo}
         alt=""
@@ -71,14 +61,64 @@ const nav = [
 
     <nav class="ml-auto hidden items-center gap-1 lg:flex" aria-label="Navegação principal">
       {
-        nav.map((item) => (
-          <a
-            href={item.href}
-            class="display rounded-md px-3.5 py-2 text-[17px] tracking-wide text-white/70 transition-colors hover:bg-white/6 hover:text-white"
-          >
-            {item.rotulo}
-          </a>
-        ))
+        navegacao.map((item) => {
+          const ativo = ehAtivo(caminho, item.href);
+
+          // Sem submenu: link simples.
+          if (!item.sub) {
+            return (
+              <a
+                href={item.href}
+                aria-current={ativo ? 'page' : undefined}
+                class:list={[
+                  'display rounded-md px-3.5 py-2 text-[17px] tracking-wide transition-colors hover:bg-white/6 hover:text-white',
+                  ativo ? 'text-moto-400' : 'text-white/70',
+                ]}
+              >
+                {item.rotulo}
+              </a>
+            );
+          }
+
+          // Com submenu: abre no passar do mouse e também ao receber foco pelo
+          // teclado. Enquanto está escondido usa `invisible`, então os links de
+          // dentro ficam fora da ordem de tabulação — quem chega pelo Tab abre
+          // o painel ao focar o item de cima.
+          return (
+            <div class="group relative">
+              <a
+                href={item.href}
+                aria-current={ativo ? 'page' : undefined}
+                class:list={[
+                  'display flex items-center gap-1.5 rounded-md px-3.5 py-2 text-[17px] tracking-wide transition-colors hover:bg-white/6 hover:text-white',
+                  ativo ? 'text-moto-400' : 'text-white/70',
+                ]}
+              >
+                {item.rotulo}
+                <Icone
+                  nome="chevron"
+                  class="size-4 transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180"
+                />
+              </a>
+
+              <div class="invisible absolute top-full left-0 z-50 pt-2 opacity-0 transition-[opacity,transform] duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 max-lg:hidden lg:-translate-y-1">
+                <ul class="w-60 overflow-hidden rounded-xl border border-white/10 bg-graphite-900 py-2 shadow-2xl shadow-black/60">
+                  {item.sub.map((s) => (
+                    <li>
+                      <a
+                        href={s.href}
+                        class="flex items-center justify-between gap-3 px-4 py-2.5 text-sm font-semibold text-white/70 transition-colors hover:bg-moto-500/12 hover:text-white"
+                      >
+                        {s.rotulo}
+                        <Icone nome="seta" class="size-4 text-moto-500 opacity-0 transition-opacity" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          );
+        })
       }
     </nav>
 
@@ -86,7 +126,7 @@ const nav = [
       href={zap()}
       target="_blank"
       rel="noopener"
-      class="ml-auto flex items-center gap-2 rounded-lg bg-zap-500 px-4 py-2.5 text-sm font-bold text-graphite-950 shadow-lg shadow-zap-500/20 transition-all hover:bg-zap-400 hover:shadow-zap-500/30 lg:ml-0"
+      class="ml-auto flex items-center gap-2 rounded-lg bg-zap-500 px-4 py-2.5 text-sm font-bold text-graphite-950 shadow-lg shadow-zap-500/20 transition-all hover:bg-zap-400 hover:shadow-zap-500/30 lg:ml-4"
     >
       <Icone nome="whatsapp" class="size-5" />
       <span class="hidden sm:inline">Falar no WhatsApp</span>
@@ -113,20 +153,41 @@ const nav = [
     <nav class="mx-auto max-w-7xl px-4 py-3 sm:px-6" aria-label="Navegação principal (mobile)">
       <ul class="divide-y divide-white/6">
         {
-          nav.map((item) => (
-            <li>
+          navegacao.map((item) => (
+            <li class="py-1.5">
               <a
                 href={item.href}
                 data-fechar-menu
-                class="display flex items-center justify-between py-3.5 text-2xl text-white/85 transition-colors hover:text-moto-400"
+                aria-current={ehAtivo(caminho, item.href) ? 'page' : undefined}
+                class:list={[
+                  'display flex items-center justify-between py-2.5 text-2xl transition-colors hover:text-moto-400',
+                  ehAtivo(caminho, item.href) ? 'text-moto-400' : 'text-white/85',
+                ]}
               >
                 {item.rotulo}
                 <Icone nome="seta" class="size-5 text-moto-500" />
               </a>
+
+              {item.sub && (
+                <ul class="mb-2 ml-1 flex flex-wrap gap-1.5">
+                  {item.sub.map((s) => (
+                    <li>
+                      <a
+                        href={s.href}
+                        data-fechar-menu
+                        class="block rounded-lg border border-white/10 bg-white/4 px-3 py-1.5 text-[13px] font-semibold text-white/60 transition-colors hover:border-moto-500/50 hover:text-white"
+                      >
+                        {s.rotulo}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))
         }
       </ul>
+
       <div class="mt-4 grid gap-2 text-sm">
         <a
           href={contato.telefoneFixoHref}

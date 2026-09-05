@@ -1,6 +1,5 @@
 ---
 import Icone from './Icone.astro';
-import TituloSecao from './TituloSecao.astro';
 import { contato, endereco, horarios, redes, zap } from '../data/site';
 
 /** `numero: true` usa a tipografia condensada de display; texto longo fica no
@@ -30,6 +29,7 @@ const canais = [
     href: `mailto:${contato.email}`,
     nota: 'Para orçamentos de empresa e frota',
     numero: false,
+    largo: true,
   },
   {
     icone: 'instagram',
@@ -44,22 +44,14 @@ const canais = [
 
 <section id="contato" class="bg-white py-20 lg:py-28">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
-    <TituloSecao
-      claro
-      sobretitulo="Contato e localização"
-      titulo="Estamos na Av. Farrapos,"
-      destaque="esquina com a Hoffmann."
-      texto="Fácil de chegar e de estacionar a moto. Se preferir, resolva tudo pelo WhatsApp sem sair de casa."
-    />
-
-    <div class="mt-12 grid gap-6 lg:grid-cols-[1fr_1.15fr] lg:gap-8">
+    <div class="grid gap-6 lg:grid-cols-[1fr_1.15fr] lg:gap-8">
       <!-- Canais + horários -->
       <div class="space-y-6">
         <ul class="grid gap-3 sm:grid-cols-2">
           {
             canais.map((c, i) => (
               <li
-                class:list={['reveal', c.destaque && 'sm:col-span-2']}
+                class:list={['reveal', (c.destaque || c.largo) && 'sm:col-span-2']}
                 style={`--reveal-delay:${i * 70}ms`}
               >
                 <a
@@ -92,7 +84,7 @@ const canais = [
                         'mt-1 block text-graphite-900',
                         c.numero
                           ? 'display text-2xl tracking-wide'
-                          : 'text-[15px] font-semibold break-all',
+                          : 'text-[15px] font-semibold [overflow-wrap:anywhere]',
                       ]}
                     >
                       {c.valor}
