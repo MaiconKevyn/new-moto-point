@@ -1,5 +1,6 @@
 ---
 import Icone from './Icone.astro';
+import { url } from '../data/navegacao';
 
 /**
  * Topo das páginas internas: caminho de migalhas + o `<h1>` da página.
@@ -28,7 +29,7 @@ const { sobretitulo, titulo, destaque, texto, migalha } = Astro.props;
     <nav aria-label="Caminho de navegação">
       <ol class="flex flex-wrap items-center gap-2 text-[13px] text-white/45">
         <li>
-          <a href="/" class="transition-colors hover:text-white">Início</a>
+          <a href={url('/')} class="transition-colors hover:text-white">Início</a>
         </li>
         <li aria-hidden="true" class="text-white/25">/</li>
         <li class="font-semibold text-white/70" aria-current="page">{migalha}</li>
@@ -52,7 +53,7 @@ const { sobretitulo, titulo, destaque, texto, migalha } = Astro.props;
     }
 
     <a
-      href="/"
+      href={url('/')}
       class="group mt-8 inline-flex items-center gap-2 text-sm font-bold text-white/50 transition-colors hover:text-moto-400"
     >
       <Icone

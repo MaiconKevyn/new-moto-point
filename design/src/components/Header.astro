@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import Icone from './Icone.astro';
 import logo from '../assets/img/brand/logo-new-moto.png';
 import { site, contato, zap } from '../data/site';
-import { navegacao, ehAtivo } from '../data/navegacao';
+import { navegacao, ehAtivo, url } from '../data/navegacao';
 
 const caminho = Astro.url.pathname;
 ---
@@ -38,7 +38,7 @@ const caminho = Astro.url.pathname;
   </div>
 
   <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6">
-    <a href="/" class="group flex shrink-0 items-center gap-3" aria-label={`${site.nome} — início`}>
+    <a href={url('/')} class="group flex shrink-0 items-center gap-3" aria-label={`${site.nome} — início`}>
       <Image
         src={logo}
         alt=""
@@ -68,7 +68,7 @@ const caminho = Astro.url.pathname;
           if (!item.sub) {
             return (
               <a
-                href={item.href}
+                href={url(item.href)}
                 aria-current={ativo ? 'page' : undefined}
                 class:list={[
                   'display rounded-md px-3.5 py-2 text-[17px] tracking-wide transition-colors hover:bg-white/6 hover:text-white',
@@ -87,7 +87,7 @@ const caminho = Astro.url.pathname;
           return (
             <div class="group relative">
               <a
-                href={item.href}
+                href={url(item.href)}
                 aria-current={ativo ? 'page' : undefined}
                 class:list={[
                   'display flex items-center gap-1.5 rounded-md px-3.5 py-2 text-[17px] tracking-wide transition-colors hover:bg-white/6 hover:text-white',
@@ -106,7 +106,7 @@ const caminho = Astro.url.pathname;
                   {item.sub.map((s) => (
                     <li>
                       <a
-                        href={s.href}
+                        href={url(s.href)}
                         class="flex items-center justify-between gap-3 px-4 py-2.5 text-sm font-semibold text-white/70 transition-colors hover:bg-moto-500/12 hover:text-white"
                       >
                         {s.rotulo}
@@ -156,7 +156,7 @@ const caminho = Astro.url.pathname;
           navegacao.map((item) => (
             <li class="py-1.5">
               <a
-                href={item.href}
+                href={url(item.href)}
                 data-fechar-menu
                 aria-current={ehAtivo(caminho, item.href) ? 'page' : undefined}
                 class:list={[
@@ -173,7 +173,7 @@ const caminho = Astro.url.pathname;
                   {item.sub.map((s) => (
                     <li>
                       <a
-                        href={s.href}
+                        href={url(s.href)}
                         data-fechar-menu
                         class="block rounded-lg border border-white/10 bg-white/4 px-3 py-1.5 text-[13px] font-semibold text-white/60 transition-colors hover:border-moto-500/50 hover:text-white"
                       >

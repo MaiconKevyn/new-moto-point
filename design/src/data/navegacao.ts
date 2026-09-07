@@ -47,12 +47,29 @@ export const navegacao: ItemNav[] = [
 ];
 
 /**
+ * Pasta em que o site foi publicado, sem a barra final: `''` na raiz do
+ * domínio e `'/editorial'` quando o build roda com `BASE_PATH=/editorial`.
+ *
+ * O Astro prefixa sozinho o que ele mesmo gera (CSS, imagens processadas),
+ * mas não mexe nos endereços escritos à mão. Por isso os itens acima guardam
+ * sempre o caminho puro e quem monta o link chama `url()`.
+ */
+const BASE = import.meta.env.BASE_URL.replace(/\/+$/, '');
+
+/** Converte um caminho do site no endereço real, já com a pasta de instalação. */
+export function url(href: string): string {
+  return href.startsWith('/') ? `${BASE}${href}` : href;
+}
+
+/**
  * Diz se um item do menu corresponde à página aberta.
  * Compara só o primeiro trecho do caminho, para `/loja/` continuar marcado
- * mesmo quando a URL traz uma âncora ou um subcaminho.
+ * mesmo quando a URL traz uma âncora ou um subcaminho. O `href` recebido é o
+ * caminho puro, então a pasta de instalação sai do `pathname` antes.
  */
 export function ehAtivo(pathname: string, href: string): boolean {
+  const semBase = BASE && pathname.startsWith(BASE) ? pathname.slice(BASE.length) : pathname;
   const raiz = (s: string) => s.split('/').filter(Boolean)[0] ?? '';
-  if (href === '/') return raiz(pathname) === '';
-  return raiz(pathname) === raiz(href);
+  if (href === '/') return raiz(semBase) === '';
+  return raiz(semBase) === raiz(href);
 }

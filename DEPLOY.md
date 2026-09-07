@@ -158,6 +158,39 @@ Ele está em `design/public/.htaccess` e é copiado para a raiz do site no build
 
 ---
 
+## Publicar uma versão numa subpasta
+
+As versões de avaliação convivem no mesmo domínio, cada uma na sua pasta
+(`/asfalto/`, `/editorial/`). Nesse caso o build precisa saber a pasta, senão
+o menu aponta para a raiz do domínio e o visitante cai na versão errada:
+
+```bash
+cd design
+npm install
+SITE_URL=https://newmotopoint.umbrastudio.com.br BASE_PATH=editorial npm run build
+```
+
+O conteúdo de `dist/` vai para `public_html/editorial/` — a pasta do
+`BASE_PATH` é onde o site é servido, não uma pasta a mais dentro do `dist/`.
+
+| Versão | Branch | `BASE_PATH` | Destino |
+| --- | --- | --- | --- |
+| 1 — Grafite | `main` | *(vazio)* | `public_html/` |
+| 2 — Asfalto | `versao-2-asfalto` | `asfalto` | `public_html/asfalto/` |
+| 3 — Editorial | `versao-3-editorial` | `editorial` | `public_html/editorial/` |
+
+Duas ressalvas enquanto as três versões estiverem no ar juntas:
+
+- **Conteúdo repetido.** São três cópias do mesmo texto no mesmo domínio. Para
+  a escolha final não atrapalhar a busca, o ideal é bloquear as pastas de
+  avaliação no `robots.txt` da **raiz** (`Disallow: /asfalto/` e
+  `Disallow: /editorial/`) — o `robots.txt` de dentro da subpasta é ignorado
+  pelos buscadores.
+- **O `.htaccess` da raiz vale para todas.** Não é preciso repetir um em cada
+  subpasta.
+
+---
+
 ## Problemas comuns
 
 | Sintoma | Causa provável |
@@ -167,5 +200,7 @@ Ele está em `design/public/.htaccess` e é copiado para a raiz do site no build
 | Site publicado mostra `SEU-DOMINIO-AQUI` no código | Build rodou sem `SITE_URL`. Confira a variável e rode o workflow de novo. |
 | Alterei e o site não mudou | Veja se o Actions passou; depois clique em **Deploy** no hPanel para forçar o pull. Se persistir, é cache do navegador (`Ctrl+Shift+R`). |
 | Aparece `/src/` ou `package.json` no site | A Hostinger está apontada para a `main` em vez da `deploy`. Corrija o branch na tela do Git. |
+| Numa subpasta, o menu leva para a outra versão | O build rodou sem `BASE_PATH`. Refaça com `BASE_PATH=editorial` (ou `asfalto`). |
+| Numa subpasta, o CSS e as imagens dão 404 | Mesma causa: sem `BASE_PATH` o site procura os arquivos na raiz do domínio. |
 | CSS ou fontes não carregam | Confira se o `.htaccess` chegou na raiz do `public_html` (é arquivo oculto — ligue "mostrar arquivos ocultos" no Gerenciador de Arquivos). |
 | Miniatura errada ao compartilhar no WhatsApp | O WhatsApp guarda a prévia em cache por bastante tempo. Teste em https://developers.facebook.com/tools/debug/ e use "Scrape Again". |

@@ -4,6 +4,7 @@ import TituloSecao from './TituloSecao.astro';
 import CardProduto from './CardProduto.astro';
 import { ofertas, desconto } from '../data/catalogo';
 import { zap } from '../data/site';
+import { url } from '../data/navegacao';
 
 interface Props {
   /** Quantas ofertas mostrar. Sem limite, mostra todas (página da loja). */
@@ -36,7 +37,7 @@ const maiorOff = Math.max(...ofertas.map((o) => desconto(o) ?? 0));
       />
 
       <a
-        href={resumido ? '/loja/#ofertas' : zap('Olá! Quero saber quais ofertas ainda estão disponíveis na New Moto Point.')}
+        href={resumido ? url('/loja/#ofertas') : zap('Olá! Quero saber quais ofertas ainda estão disponíveis na New Moto Point.')}
         target={resumido ? undefined : '_blank'}
         rel={resumido ? undefined : 'noopener'}
         class="reveal group inline-flex shrink-0 items-center gap-2.5 self-start rounded-xl border border-white/15 px-6 py-3.5 font-bold text-white transition-all hover:border-zap-500 hover:bg-zap-500 hover:text-graphite-950 lg:self-auto"

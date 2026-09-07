@@ -1,13 +1,19 @@
 import type { APIRoute } from 'astro';
+import { url } from '../data/navegacao';
 
-/** Gerado no build para o sitemap sempre apontar para o SITE_URL em uso. */
+/**
+ * Gerado no build para o sitemap sempre apontar para o SITE_URL em uso.
+ *
+ * Numa instalação em subpasta este arquivo é publicado junto, mas os
+ * buscadores só leem o robots.txt da raiz do domínio — quem manda ali é o
+ * robots.txt do site principal.
+ */
 export const GET: APIRoute = ({ site }) => {
-  const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
   const corpo = [
     'User-agent: *',
-    'Allow: /',
+    `Allow: ${url('/')}`,
     '',
-    `Sitemap: ${new URL(`${basePath}sitemap-index.xml`, site)}`,
+    `Sitemap: ${new URL(url('/sitemap-index.xml'), site)}`,
     '',
   ].join('\n');
 

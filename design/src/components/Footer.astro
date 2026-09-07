@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Icone from './Icone.astro';
 import logo from '../assets/img/brand/logo-new-moto.png';
 import { site, contato, endereco, horarios, redes, marcas, zap } from '../data/site';
+import { url } from '../data/navegacao';
 
 const ano = new Date().getFullYear();
 
@@ -87,7 +88,7 @@ const colunas = [
               {col.links.map((l) => (
                 <li>
                   <a
-                    href={l.href}
+                    href={url(l.href)}
                     class="text-white/55 transition-colors hover:text-moto-400"
                   >
                     {l.rotulo}

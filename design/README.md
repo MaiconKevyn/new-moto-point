@@ -38,6 +38,23 @@ npx astro check        # tipos e diagnósticos
 `SITE_URL` define a URL canônica, o `sitemap.xml`, o `robots.txt` e as tags de
 compartilhamento. Sem ela o build avisa e usa um endereço de exemplo.
 
+### Publicar numa subpasta
+
+Esta versão vai para a **raiz** do domínio, então não é preciso fazer nada.
+Quando o site é publicado dentro de uma pasta — é o caso das versões 2 e 3,
+que convivem no mesmo domínio para avaliação — informe a pasta no build:
+
+```bash
+SITE_URL=https://newmotopoint.umbrastudio.com.br BASE_PATH=asfalto npm run build
+```
+
+Sem o `BASE_PATH` o menu da versão em subpasta aponta para a raiz do domínio
+e o visitante cai nesta versão aqui.
+
+> No Git Bash do Windows escreva `BASE_PATH=asfalto`, sem a barra inicial: um
+> valor começando com `/` é convertido em caminho de disco antes de chegar ao
+> Node e o build quebra.
+
 ## Onde mexer no conteúdo
 
 Todo o texto e o catálogo estão em três arquivos — não é preciso tocar em
