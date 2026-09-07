@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import Ofertas from '../components/Ofertas.astro';
+import Acessorios from '../components/Acessorios.astro';
+import Pecas from '../components/Pecas.astro';
+import PrecisaAjuda from '../components/PrecisaAjuda.astro';
+import { site } from '../data/site';
+import { ofertas, vitrines } from '../data/catalogo';
+
+const totalProdutos =
+  ofertas.length + vitrines.reduce((soma, v) => soma + v.itens.length, 0);
+---
+
+<Base
+  titulo={`Loja — Peças, Acessórios e Roupas de Moto | ${site.nome}`}
+  descricao="Catálogo da New Moto Point na Av. Farrapos, Porto Alegre: luvas e roupas térmicas em oferta, capa de chuva Pantaneiro, baús e grelhas, viseiras originais Zeus e Peels, óleos 20W50 e peças de reposição para Honda, Yamaha, Suzuki, Sundown e Dafra."
+  migalha="Loja"
+>
+  <CabecalhoPagina
+    migalha="Loja"
+    sobretitulo="Catálogo da loja"
+    titulo="Tudo o que a gente vende,"
+    destaque="numa página só."
+    texto={`${totalProdutos} itens entre roupa de moto, acessório, óleo e peça de reposição. O preço sai na hora pelo WhatsApp e você retira na loja ou pede tele entrega.`}
+  />
+
+  <Ofertas />
+  <Acessorios />
+  <Pecas />
+  <PrecisaAjuda />
+</Base>

@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import Icone from './Icone.astro';
-import TituloSecao from './TituloSecao.astro';
 import { servicos, especialidades, fotos } from '../data/servicos';
 import { zap, zapServico } from '../data/site';
 ---
@@ -10,16 +9,11 @@ import { zap, zapServico } from '../data/site';
   <div class="textura-pontos absolute inset-0 opacity-50"></div>
 
   <div class="relative mx-auto max-w-7xl px-4 sm:px-6">
-    <TituloSecao
-      centro
-      sobretitulo="Oficina própria"
-      titulo="O que a gente resolve"
-      destaque="na bancada"
-      texto="Mecânicos com formação SENAC RS. Você aprova o orçamento da peça e da mão de obra antes de qualquer coisa ser desmontada."
-    />
-
     <!-- Grade de serviços: losango vermelho + texto -->
-    <div class="mt-16 grid gap-px overflow-hidden border border-white/8 bg-white/8 sm:grid-cols-2 lg:grid-cols-3">
+    <div
+      id="servicos"
+      class="grid scroll-mt-28 gap-px overflow-hidden border border-white/8 bg-white/8 sm:grid-cols-2 lg:grid-cols-3"
+    >
       {
         servicos.map((s, i) => (
           <article
@@ -52,7 +46,7 @@ import { zap, zapServico } from '../data/site';
   </div>
 
   <!-- Faixa de especialidades sobre foto da própria oficina -->
-  <div class="relative mt-20 lg:mt-28">
+  <div id="especialidades" class="relative mt-20 scroll-mt-28 lg:mt-28">
     <div class="absolute inset-0">
       <Image
         src={fotos.oficina}

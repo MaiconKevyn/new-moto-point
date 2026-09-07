@@ -1,6 +1,5 @@
 ---
 import Icone from './Icone.astro';
-import TituloSecao from './TituloSecao.astro';
 import { contato, endereco, horarios, redes, zap } from '../data/site';
 
 /** `numero: true` usa a tipografia de display; texto longo fica no corpo
@@ -44,15 +43,7 @@ const canais = [
 
 <section id="contato" class="bg-carbon-50 py-20 lg:py-28">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
-    <TituloSecao
-      claro
-      sobretitulo="Contato e localização"
-      titulo="Estamos na Av. Farrapos,"
-      destaque="esquina com a Hoffmann."
-      texto="Fácil de chegar e de estacionar a moto. Se preferir, resolva tudo pelo WhatsApp sem sair de casa."
-    />
-
-    <div class="mt-12 grid gap-8 lg:grid-cols-[1fr_1.15fr]">
+    <div class="grid gap-8 lg:grid-cols-[1fr_1.15fr]">
       <!-- Canais + horários -->
       <div class="space-y-6">
         <ul class="reveal divide-y divide-carbon-950/10 border border-carbon-950/12 bg-white">
@@ -83,7 +74,7 @@ const canais = [
                     <span
                       class:list={[
                         'mt-1 block text-carbon-950',
-                        c.numero ? 'display text-xl' : 'text-[15px] font-semibold break-all',
+                        c.numero ? 'display text-xl' : 'text-[15px] font-semibold [overflow-wrap:anywhere]',
                       ]}
                     >
                       {c.valor}

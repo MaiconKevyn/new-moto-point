@@ -1,0 +1,68 @@
+---
+import Icone from './Icone.astro';
+import { url } from '../data/navegacao';
+
+/**
+ * Topo das páginas internas: caminho de migalhas + o `<h1>` da página.
+ *
+ * Cada página precisa de um `<h1>` próprio — é ele que o Google lê como
+ * assunto da URL. Os títulos das seções abaixo continuam sendo `<h2>`.
+ */
+interface Props {
+  sobretitulo: string;
+  titulo: string;
+  destaque?: string;
+  texto?: string;
+  /** Nome da página no caminho de migalhas. */
+  migalha: string;
+}
+
+const { sobretitulo, titulo, destaque, texto, migalha } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-carbon-950">
+  <div class="textura-pontos absolute inset-0 opacity-50"></div>
+  <div class="absolute -top-40 -right-32 size-[34rem] rounded-full bg-rubi-600/18 blur-[140px]"></div>
+
+  <div class="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:py-16">
+    <nav aria-label="Caminho de navegação">
+      <ol class="flex flex-wrap items-center gap-2 text-[12.5px] text-white/45">
+        <li>
+          <a href={url('/')} class="transition-colors hover:text-white">Início</a>
+        </li>
+        <li aria-hidden="true" class="text-rubi-500">/</li>
+        <li class="font-bold text-white/75" aria-current="page">{migalha}</li>
+      </ol>
+    </nav>
+
+    <p class="rotulo mt-7 flex items-center gap-3 text-[11px] text-rubi-400">
+      <span class="hachura block h-2.5 w-8 bg-rubi-500"></span>
+      {sobretitulo}
+    </p>
+
+    <h1 class="display mt-5 max-w-4xl text-[2.2rem] text-white sm:text-5xl lg:text-6xl">
+      {titulo}
+      {destaque && <span class="text-rubi-500"> {destaque}</span>}
+    </h1>
+
+    {
+      texto && (
+        <p class="mt-5 max-w-2xl text-[15px] leading-relaxed text-white/55 sm:text-base">{texto}</p>
+      )
+    }
+
+    <a
+      href={url('/')}
+      class="group mt-8 inline-flex items-center gap-2 text-[12.5px] font-extrabold tracking-wider text-white/50 uppercase transition-colors hover:text-rubi-400"
+    >
+      <Icone
+        nome="seta"
+        class="size-4.5 rotate-180 transition-transform duration-300 group-hover:-translate-x-1"
+      />
+      Voltar para o início
+    </a>
+  </div>
+
+  <!-- Fecho em hachura, o mesmo detalhe das faixas vermelhas -->
+  <div class="hachura h-2 w-full bg-rubi-600"></div>
+</section>

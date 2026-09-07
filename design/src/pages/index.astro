@@ -2,27 +2,17 @@
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Numeros from '../components/Numeros.astro';
-import Servicos from '../components/Servicos.astro';
-import Galeria from '../components/Galeria.astro';
-import PrecisaAjuda from '../components/PrecisaAjuda.astro';
+import ResumoAreas from '../components/ResumoAreas.astro';
 import Ofertas from '../components/Ofertas.astro';
-import Pecas from '../components/Pecas.astro';
-import Acessorios from '../components/Acessorios.astro';
-import ComoFunciona from '../components/ComoFunciona.astro';
 import Loja from '../components/Loja.astro';
-import Contato from '../components/Contato.astro';
+import PrecisaAjuda from '../components/PrecisaAjuda.astro';
 ---
 
 <Base>
   <Hero />
   <Numeros />
-  <Servicos />
-  <Galeria />
-  <PrecisaAjuda />
-  <Ofertas />
-  <Pecas />
-  <Acessorios />
-  <ComoFunciona />
+  <ResumoAreas />
+  <Ofertas limite={4} />
   <Loja />
-  <Contato />
+  <PrecisaAjuda />
 </Base>
