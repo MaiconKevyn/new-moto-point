@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Icone from './Icone.astro';
+import { url } from '../data/navegacao';
 import { fotos } from '../data/servicos';
 import { site, contato, marcas, zap } from '../data/site';
 ---
@@ -63,7 +64,7 @@ import { site, contato, marcas, zap } from '../data/site';
           />
         </a>
         <a
-          href="#oficina"
+          href={url('/oficina/#servicos')}
           class="flex items-center justify-center gap-2.5 rounded-sm border border-white/20 px-7 py-4 font-extrabold tracking-wide text-white uppercase transition-all hover:border-rubi-500 hover:bg-rubi-500"
         >
           <Icone nome="ferramentas" class="size-5" />
