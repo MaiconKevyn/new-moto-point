@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Icone from './Icone.astro';
+import { url } from '../data/navegacao';
 import { fotos } from '../data/servicos';
 import { site, contato, marcas, zap } from '../data/site';
 
@@ -89,7 +90,7 @@ const numeros = [
           />
         </a>
         <a
-          href="#oficina"
+          href={url('/oficina/#servicos')}
           class="flex items-center justify-center gap-2.5 rounded-xl border border-white/18 px-7 py-4 font-bold text-white backdrop-blur-sm transition-all hover:border-moto-500 hover:bg-moto-500/12"
         >
           <Icone nome="ferramentas" class="size-5" />
