@@ -37,9 +37,15 @@ jobs:
           cache: npm
           cache-dependency-path: design/package-lock.json
 
+      # `npm install` em vez de `npm ci`: o package-lock.json é gerado no
+      # Windows, e ali o npm não registra a subárvore opcional wasm32
+      # (@emnapi/core e @emnapi/runtime, exigidos por @img/sharp-wasm32 e por
+      # @tailwindcss/oxide-wasm32-wasi). No runner Linux o `npm ci` recusa o
+      # lock por causa disso — foi o que travou todos os deploys até aqui.
+      # Se algum dia o lock for regerado no Linux, dá para voltar ao npm ci.
       - name: Instalar dependências
         working-directory: design
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Conferir tipos e diagnósticos
         working-directory: design

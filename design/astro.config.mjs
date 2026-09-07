@@ -29,9 +29,27 @@ if (site === PLACEHOLDER) {
   );
 }
 
+/**
+ * Pasta em que o site vive dentro do domínio. Vazio publica na raiz.
+ *
+ * As versões alternativas ficam em subpastas do mesmo domínio
+ * (`/asfalto/`, `/editorial/`), e aí o build precisa saber disso:
+ *
+ *   BASE_PATH=editorial npm run build
+ *
+ * Sem isso o site sobe com links para a raiz e a navegação cai na versão
+ * errada. Todo link interno passa por `url()` em src/data/navegacao.ts.
+ *
+ * A barra do começo é opcional de propósito: no Git Bash do Windows um valor
+ * que começa com `/` é reescrito para um caminho do disco (`C:/Program
+ * Files/Git/editorial`) antes de chegar aqui, e o build quebra.
+ */
+const basePath = (process.env.SITE_BASE_PATH || process.env.BASE_PATH || env.SITE_BASE_PATH || env.BASE_PATH || '').trim().replace(/^\/+|\/+$/g, '');
+const base = basePath ? `/${basePath}` : '/';
+
 export default defineConfig({
   site,
-  base: process.env.SITE_BASE_PATH || '/',
+  base,
   trailingSlash: 'always',
   integrations: [sitemap()],
   vite: {

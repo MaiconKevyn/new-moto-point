@@ -52,9 +52,29 @@ npx astro check        # tipos e diagnósticos
 `SITE_URL` define a URL canônica, o `sitemap.xml`, o `robots.txt` e as tags de
 compartilhamento. Sem ela o build avisa e usa um endereço de exemplo.
 
-> Cada versão usa uma fonte diferente, então o `package.json` muda entre as
-> branches. **Ao trocar de versão, rode `npm install` de novo** — senão o build
-> para dizendo que não acha o `.css` da fonte.
+### Publicar numa subpasta
+
+Na raiz do domínio não há nada a fazer. Para publicar dentro de uma pasta —
+é o caso das versões de avaliação, que convivem no mesmo domínio — informe a
+pasta no build:
+
+```bash
+SITE_URL=https://newmotopoint.umbrastudio.com.br BASE_PATH=editorial npm run build
+```
+
+O conteúdo de `dist/` vai para `public_html/editorial/`. Sem o `BASE_PATH` o
+menu aponta para a raiz do domínio e o visitante cai na outra versão do site.
+
+> No Git Bash do Windows escreva `BASE_PATH=editorial`, sem a barra inicial:
+> um valor começando com `/` é convertido em caminho de disco antes de chegar
+> ao Node e o build quebra.
+
+> Cada versão usa uma fonte de título diferente, mas as três declaram as três
+> fontes no `package.json`. É de propósito: assim as dependências são iguais
+> nas três branches e trocar de versão **não exige `npm install` de novo** —
+> antes disso, quem trocava sem reinstalar batia num erro de `.css` de fonte
+> que não explicava nada. A fonte que não é importada no `global.css` não entra
+> no build: o `dist/` sai do mesmo tamanho.
 
 ## Onde mexer no conteúdo
 
@@ -95,13 +115,36 @@ src/
     Servicos.astro        lista de serviços em fio de régua
     Numeros.astro         números da loja + diferenciais
   data/              conteúdo e catálogo
+    navegacao.ts     menu, submenus e item ativo — fonte única
   layouts/Base.astro <head>, JSON-LD, header/footer, script de revelação
   pages/
-    index.astro      monta as seções na ordem
+    index.astro      home: topo, números, resumo, 4 ofertas, a loja
+    loja.astro       catálogo inteiro (ofertas, acessórios, peças, óleos)
+    oficina.astro    serviços, especialidades e como funciona
+    contato.astro    canais, horários, endereço e mapa
     404.astro        página de erro, com atalhos e WhatsApp
     robots.txt.ts    gerado no build a partir do SITE_URL
   styles/global.css  tokens de cor, tipografia e utilitários
 ```
+
+## As quatro páginas
+
+| URL | O que tem |
+| --- | --- |
+| `/` | Topo, números da loja, diferenciais, resumo das três áreas, 4 ofertas em destaque, a loja e os depoimentos. |
+| `/loja/` | Catálogo completo, com âncora por categoria: `#ofertas`, `#chuva`, `#baus`, `#viseiras`, `#pecas`, `#oleos`. |
+| `/oficina/` | Os 6 serviços em fio de régua, as especialidades e os 4 passos do atendimento. |
+| `/contato/` | Canais, horários, endereço e mapa. |
+
+O menu sai de `src/data/navegacao.ts` — mexer ali muda o topo, o menu do
+celular, o rodapé e os atalhos da 404 de uma vez.
+
+O submenu do desktop abre no passar do mouse **e** ao receber foco pelo
+teclado, só com CSS. Enquanto fechado ele usa `invisible`, então os links de
+dentro ficam fora da ordem de tabulação até o item de cima ser focado.
+
+Os endereços levam barra no fim (`/loja/`) porque o Astro gera cada página
+como diretório. Sem a barra o Apache responde um 301 antes de servir.
 
 ## Publicação
 

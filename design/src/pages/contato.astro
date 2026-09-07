@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/CabecalhoPagina.astro';
+import Contato from '../components/Contato.astro';
+import { site, endereco } from '../data/site';
+---
+
+<Base
+  titulo={`Contato, Endereço e Horários — ${site.nome}, Av. Farrapos, Porto Alegre`}
+  descricao={`Fale com a New Moto Point pelo WhatsApp, telefone ou e-mail. Estamos na ${endereco.rua}, ${endereco.complemento}, bairro ${endereco.bairro}, ${endereco.cidade}/${endereco.estado}. Seg a sex 8h–18h e sábado 9h–17h.`}
+  migalha="Contato"
+>
+  <CabecalhoPagina
+    migalha="Contato"
+    sobretitulo="Contato e localização"
+    titulo="Estamos na Av. Farrapos,"
+    destaque="esquina com a Hoffmann."
+    texto="Fácil de chegar e de estacionar a moto. Se preferir, resolva tudo pelo WhatsApp sem sair de casa — mandamos foto, preço e prazo por lá."
+  />
+
+  <Contato />
+</Base>

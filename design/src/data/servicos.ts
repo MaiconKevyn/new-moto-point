@@ -56,6 +56,7 @@ export const servicos: Servico[] = [
     resumo:
       'A carga é necessária quando a bateria não atinge a quantidade recomendada de energia. Testamos antes de indicar a troca.',
     icone: 'bateria',
+    img: fotoManutencao,
   },
   {
     nome: 'Frizzo de roda',

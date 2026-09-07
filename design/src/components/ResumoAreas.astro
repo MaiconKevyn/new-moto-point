@@ -1,0 +1,84 @@
+---
+import Icone from './Icone.astro';
+import { ofertas, vitrines } from '../data/catalogo';
+import { servicos, especialidades } from '../data/servicos';
+import { endereco } from '../data/site';
+import { url } from '../data/navegacao';
+
+// Números tirados do próprio catálogo — não há contagem escrita à mão que
+// possa ficar desatualizada quando um produto entrar ou sair.
+const totalProdutos =
+  ofertas.length + vitrines.reduce((soma, v) => soma + v.itens.length, 0);
+
+const areas = [
+  {
+    href: '/loja/',
+    icone: 'loja',
+    titulo: 'A loja',
+    texto: `${totalProdutos} itens no catálogo: luva e roupa térmica em oferta, capa de chuva, baú, grelha, viseira original, óleo e peça de reposição.`,
+    marcador: `${totalProdutos} itens`,
+  },
+  {
+    href: '/oficina/',
+    icone: 'ferramentas',
+    titulo: 'A oficina',
+    texto: `${servicos.length} serviços na bancada e mão de obra certificada SENAC RS para ${especialidades.map((e) => e.nome.toLowerCase()).join(', ')}.`,
+    marcador: `${servicos.length} serviços`,
+  },
+  {
+    href: '/contato/',
+    icone: 'local',
+    titulo: 'Onde estamos',
+    texto: `${endereco.rua}, ${endereco.complemento}. Bairro ${endereco.bairro}, com mapa, horários e todos os canais de atendimento.`,
+    marcador: 'Seg a sáb',
+  },
+];
+---
+
+<!-- Três caminhos, em linhas de régua — o mesmo ritmo editorial da lista de
+     serviços, agora levando para as páginas internas. -->
+<section class="bg-creme-50 py-20 lg:py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="reveal max-w-2xl">
+      <p class="rotulo flex items-center gap-3 text-[10px] text-ambar-600">
+        <span class="block h-px w-8 bg-ambar-500"></span>
+        O que você procura
+      </p>
+      <h2 class="display mt-5 text-[2.1rem] text-tinta-950 sm:text-5xl">
+        Três caminhos, <span class="text-ambar-500 italic">um endereço só.</span>
+      </h2>
+    </div>
+
+    <ul class="mt-12 border-t border-tinta-950/14">
+      {
+        areas.map((a, i) => (
+          <li class="fio reveal group" style={`--reveal-delay:${i * 80}ms`}>
+            <a href={url(a.href)} class="flex items-center gap-5 py-8 lg:gap-10">
+              <Icone
+                nome={a.icone}
+                class="hidden size-7 shrink-0 text-ambar-500 transition-colors group-hover:text-ambar-600 sm:block"
+              />
+
+              <div class="min-w-0 flex-1">
+                <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                  <h3 class="display text-2xl text-tinta-950 transition-colors group-hover:text-ambar-600 sm:text-3xl">
+                    {a.titulo}
+                  </h3>
+                  <span class="rotulo text-[9px] text-tinta-400">{a.marcador}</span>
+                </div>
+                <p class="mt-2.5 max-w-2xl text-sm leading-relaxed text-tinta-500">{a.texto}</p>
+              </div>
+
+              <span
+                class="flex size-11 shrink-0 items-center justify-center rounded-full border border-tinta-950/20 text-tinta-600 transition-all duration-300 group-hover:border-ambar-400 group-hover:bg-ambar-400 group-hover:text-tinta-950"
+                aria-hidden="true"
+              >
+                <Icone nome="setaCurta" class="size-4.5" />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

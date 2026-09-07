@@ -1,10 +1,23 @@
 ---
 import Icone from './Icone.astro';
+import { url } from '../data/navegacao';
 import TituloSecao from './TituloSecao.astro';
 import CardProduto from './CardProduto.astro';
 import { ofertas, desconto } from '../data/catalogo';
 import { zap } from '../data/site';
 
+interface Props {
+  /** Quantas ofertas mostrar. Sem limite, mostra todas (página da loja). */
+  limite?: number;
+}
+
+const { limite } = Astro.props;
+
+const lista = limite ? ofertas.slice(0, limite) : ofertas;
+const resumido = Boolean(limite) && ofertas.length > lista.length;
+
+// O desconto anunciado é sempre o maior do catálogo, mesmo na home resumida:
+// senão a chamada muda de número conforme a vitrine é cortada.
 const maiorOff = Math.max(...ofertas.map((o) => desconto(o) ?? 0));
 ---
 
@@ -19,12 +32,12 @@ const maiorOff = Math.max(...ofertas.map((o) => desconto(o) ?? 0));
       />
 
       <a
-        href={zap('Olá! Quero saber quais ofertas ainda estão disponíveis na New Moto Point.')}
-        target="_blank"
-        rel="noopener"
+        href={resumido ? url('/loja/#ofertas') : zap('Olá! Quero saber quais ofertas ainda estão disponíveis na New Moto Point.')}
+        target={resumido ? undefined : '_blank'}
+        rel={resumido ? undefined : 'noopener'}
         class="reveal group inline-flex shrink-0 items-center gap-2.5 self-start rounded-full border border-tinta-950/20 px-6 py-3 text-sm font-semibold text-tinta-950 transition-all hover:border-ambar-500 hover:bg-ambar-400 lg:self-auto"
       >
-        Ver disponibilidade
+        {resumido ? `Ver as ${ofertas.length} ofertas` : 'Ver disponibilidade'}
         <Icone
           nome="seta"
           class="size-4.5 transition-transform duration-300 group-hover:translate-x-1"
@@ -33,7 +46,7 @@ const maiorOff = Math.max(...ofertas.map((o) => desconto(o) ?? 0));
     </div>
 
     <div class="mt-12 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
-      {ofertas.map((p, i) => <CardProduto produto={p} atraso={(i % 4) * 60} />)}
+      {lista.map((p, i) => <CardProduto produto={p} atraso={(i % 4) * 60} />)}
     </div>
 
     <p class="reveal mt-8 flex items-start gap-2.5 text-xs leading-relaxed text-tinta-500 sm:items-center">

@@ -24,16 +24,22 @@ vive na sua branch:
 
 ### Trocando de versão
 
-Cada versão usa uma fonte diferente, então o `package.json` muda entre as
-branches. E ele fica em **`design/`**, não na raiz do repositório — rodar
-`npm install` na raiz dá `ENOENT: package.json`:
+As três branches declaram as mesmas dependências, então trocar de versão não
+exige reinstalar nada:
 
 ```bash
 git checkout versao-2-asfalto
 cd design
-npm install     # sem isso o build para em "@fontsource/... não encontrado"
 npm run dev     # http://localhost:4321
 ```
+
+O `package.json` fica em **`design/`**, não na raiz do repositório — rodar
+`npm install` na raiz dá `ENOENT: package.json`.
+
+> Cada versão importa uma fonte de título diferente, mas as três a declaram no
+> `package.json` de propósito. Antes, trocar de branch sem reinstalar parava o
+> build num `Can't resolve '@fontsource/...'` que não dizia o que fazer. A
+> fonte que o `global.css` não importa não entra no build.
 
 ## Rodando
 

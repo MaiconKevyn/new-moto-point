@@ -1,0 +1,61 @@
+---
+import Icone from './Icone.astro';
+import { url } from '../data/navegacao';
+
+/**
+ * Topo das páginas internas: caminho de migalhas + o `<h1>` da página.
+ *
+ * Cada página precisa de um `<h1>` próprio — é ele que o Google lê como
+ * assunto da URL. Os títulos das seções abaixo continuam sendo `<h2>`.
+ */
+interface Props {
+  sobretitulo: string;
+  titulo: string;
+  destaque?: string;
+  texto?: string;
+  /** Nome da página no caminho de migalhas. */
+  migalha: string;
+}
+
+const { sobretitulo, titulo, destaque, texto, migalha } = Astro.props;
+---
+
+<section class="border-b border-tinta-950/10 bg-creme-100">
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:py-16">
+    <nav aria-label="Caminho de navegação">
+      <ol class="flex flex-wrap items-center gap-2 text-[13px] text-tinta-400">
+        <li>
+          <a href={url('/')} class="transition-colors hover:text-tinta-950">Início</a>
+        </li>
+        <li aria-hidden="true" class="text-ambar-500">/</li>
+        <li class="font-semibold text-tinta-700" aria-current="page">{migalha}</li>
+      </ol>
+    </nav>
+
+    <p class="rotulo mt-8 flex items-center gap-3 text-[10px] text-ambar-600">
+      <span class="block h-px w-8 bg-ambar-500"></span>
+      {sobretitulo}
+    </p>
+
+    <h1 class="display mt-5 max-w-4xl text-[2.4rem] text-tinta-950 sm:text-5xl lg:text-[3.75rem]">
+      {titulo}
+      {destaque && <span class="text-ambar-500 italic"> {destaque}</span>}
+    </h1>
+
+    {
+      texto && (
+        <p class="mt-6 max-w-2xl text-[15px] leading-relaxed text-tinta-500 sm:text-base">{texto}</p>
+      )
+    }
+
+    <a
+      href={url('/')}
+      class="group mt-9 inline-flex items-center gap-2.5 text-sm font-semibold text-tinta-500 transition-colors hover:text-ambar-600"
+    >
+      <span class="flex size-9 items-center justify-center rounded-full border border-tinta-950/20 transition-all duration-300 group-hover:border-ambar-400 group-hover:bg-ambar-400 group-hover:text-tinta-950">
+        <Icone nome="seta" class="size-4 rotate-180" />
+      </span>
+      Voltar para o início
+    </a>
+  </div>
+</section>

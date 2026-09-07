@@ -3,28 +3,30 @@ import { Image } from 'astro:assets';
 import Icone from './Icone.astro';
 import logo from '../assets/img/brand/logo-new-moto.png';
 import { site, contato, endereco, horarios, redes, marcas, zap } from '../data/site';
+import { url } from '../data/navegacao';
 
 const ano = new Date().getFullYear();
 
 const colunas = [
   {
-    titulo: 'Catálogo',
+    titulo: 'Loja',
     links: [
-      { href: '#ofertas', rotulo: 'Ofertas da semana' },
-      { href: '#pecas', rotulo: 'Peças de reposição' },
-      { href: '#chuva', rotulo: 'Roupas de chuva' },
-      { href: '#baus', rotulo: 'Baús e grelhas' },
-      { href: '#viseiras', rotulo: 'Viseiras' },
+      { href: '/loja/', rotulo: 'Catálogo completo' },
+      { href: '/loja/#ofertas', rotulo: 'Ofertas da semana' },
+      { href: '/loja/#chuva', rotulo: 'Roupas de chuva' },
+      { href: '/loja/#baus', rotulo: 'Baús e grelhas' },
+      { href: '/loja/#viseiras', rotulo: 'Viseiras' },
+      { href: '/loja/#pecas', rotulo: 'Peças de reposição' },
     ],
   },
   {
     titulo: 'Oficina',
     links: [
-      { href: '#servicos', rotulo: 'Todos os serviços' },
-      { href: '#oficina', rotulo: 'Especialidades' },
-      { href: '#como-funciona', rotulo: 'Como funciona' },
-      { href: '#loja', rotulo: 'Sobre a loja' },
-      { href: '#contato', rotulo: 'Endereço e horários' },
+      { href: '/oficina/', rotulo: 'Todos os serviços' },
+      { href: '/oficina/#especialidades', rotulo: 'Especialidades' },
+      { href: '/oficina/#como-funciona', rotulo: 'Como funciona' },
+      { href: '/contato/', rotulo: 'Endereço e horários' },
+      { href: '/', rotulo: 'Sobre a loja' },
     ],
   },
 ];
@@ -85,7 +87,7 @@ const colunas = [
             <ul class="mt-5 space-y-3 text-sm">
               {col.links.map((l) => (
                 <li>
-                  <a href={l.href} class="text-white/55 transition-colors hover:text-ambar-300">
+                  <a href={url(l.href)} class="text-white/55 transition-colors hover:text-ambar-300">
                     {l.rotulo}
                   </a>
                 </li>

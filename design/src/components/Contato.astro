@@ -1,6 +1,5 @@
 ---
 import Icone from './Icone.astro';
-import TituloSecao from './TituloSecao.astro';
 import { contato, endereco, horarios, redes, zap } from '../data/site';
 
 /** `numero: true` usa a serifa de display; texto longo fica no corpo normal
@@ -43,14 +42,7 @@ const canais = [
 
 <section id="contato" class="bg-creme-50 py-20 lg:py-28">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
-    <TituloSecao
-      sobretitulo="Contato e localização"
-      titulo="Estamos na Av. Farrapos,"
-      destaque="esquina com a Hoffmann."
-      texto="Fácil de chegar e de estacionar a moto. Se preferir, resolva tudo pelo WhatsApp sem sair de casa."
-    />
-
-    <div class="mt-14 grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
       <!-- Canais + horários -->
       <div>
         <ul class="reveal border-t border-tinta-950/14">
@@ -72,7 +64,7 @@ const canais = [
                     <span
                       class:list={[
                         'mt-1 block text-tinta-950 transition-colors group-hover:text-ambar-600',
-                        c.numero ? 'display text-2xl' : 'text-[15px] font-semibold break-all',
+                        c.numero ? 'display text-2xl' : 'text-[15px] font-semibold [overflow-wrap:anywhere]',
                       ]}
                     >
                       {c.valor}

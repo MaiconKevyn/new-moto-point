@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import Icone from './Icone.astro';
-import TituloSecao from './TituloSecao.astro';
 import { servicos } from '../data/servicos';
 import { zap, zapServico } from '../data/site';
 ---
@@ -9,14 +8,7 @@ import { zap, zapServico } from '../data/site';
 <!-- Serviços em linhas de régua: o bloco que dá o tom editorial da página. -->
 <section id="servicos" class="bg-creme-50 py-20 lg:py-28">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
-    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-      <TituloSecao
-        sobretitulo="Oficina própria"
-        titulo="O que a gente resolve"
-        destaque="na bancada"
-        texto="Você aprova o orçamento da peça e da mão de obra antes de qualquer coisa ser desmontada."
-      />
-
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
       <a
         href={zap('Olá! Quero agendar um serviço na oficina da New Moto Point.')}
         target="_blank"

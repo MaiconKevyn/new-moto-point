@@ -3,16 +3,9 @@ import { Image } from 'astro:assets';
 import Icone from './Icone.astro';
 import logo from '../assets/img/brand/logo-new-moto.png';
 import { site, contato, zap } from '../data/site';
+import { navegacao, ehAtivo, url } from '../data/navegacao';
 
-const nav = [
-  { href: '#oficina', rotulo: 'Oficina' },
-  { href: '#servicos', rotulo: 'Serviços' },
-  { href: '#ofertas', rotulo: 'Ofertas' },
-  { href: '#pecas', rotulo: 'Peças' },
-  { href: '#acessorios', rotulo: 'Acessórios' },
-  { href: '#loja', rotulo: 'A loja' },
-  { href: '#contato', rotulo: 'Contato' },
-];
+const caminho = Astro.url.pathname;
 ---
 
 <header id="topo" class="sticky top-0 z-50 bg-creme-50/92 backdrop-blur-lg">
@@ -44,11 +37,7 @@ const nav = [
   <div
     class="mx-auto flex max-w-7xl items-center gap-4 border-b border-tinta-950/10 px-4 py-3.5 sm:px-6"
   >
-    <a
-      href="#topo"
-      class="group flex shrink-0 items-center gap-3"
-      aria-label={`${site.nome} — início`}
-    >
+    <a href={url('/')} class="group flex shrink-0 items-center gap-3" aria-label={`${site.nome} — início`}>
       <Image
         src={logo}
         alt=""
@@ -69,15 +58,79 @@ const nav = [
 
     <nav class="mx-auto hidden items-center gap-1 lg:flex" aria-label="Navegação principal">
       {
-        nav.map((item) => (
-          <a
-            href={item.href}
-            class="group relative px-3.5 py-2 text-[14px] font-medium text-tinta-600 transition-colors hover:text-tinta-950"
-          >
-            {item.rotulo}
-            <span class="absolute inset-x-3.5 -bottom-0.5 h-px origin-left scale-x-0 bg-ambar-500 transition-transform duration-300 group-hover:scale-x-100" />
-          </a>
-        ))
+        navegacao.map((item) => {
+          const ativo = ehAtivo(caminho, item.href);
+
+          if (!item.sub) {
+            return (
+              <a
+                href={url(item.href)}
+                aria-current={ativo ? 'page' : undefined}
+                class:list={[
+                  'group relative px-3.5 py-2 text-[14px] transition-colors hover:text-tinta-950',
+                  ativo ? 'font-semibold text-tinta-950' : 'font-medium text-tinta-600',
+                ]}
+              >
+                {item.rotulo}
+                <span
+                  class:list={[
+                    'absolute inset-x-3.5 -bottom-0.5 h-px origin-left bg-ambar-500 transition-transform duration-300 group-hover:scale-x-100',
+                    ativo ? 'scale-x-100' : 'scale-x-0',
+                  ]}
+                />
+              </a>
+            );
+          }
+
+          // Submenu: abre no hover e também ao receber foco pelo teclado.
+          // Enquanto fechado usa `invisible`, então os links de dentro ficam
+          // fora da ordem de tabulação até o item de cima ser focado.
+          return (
+            <div class="group relative">
+              <a
+                href={url(item.href)}
+                aria-current={ativo ? 'page' : undefined}
+                class:list={[
+                  'relative flex items-center gap-1.5 px-3.5 py-2 text-[14px] transition-colors hover:text-tinta-950',
+                  ativo ? 'font-semibold text-tinta-950' : 'font-medium text-tinta-600',
+                ]}
+              >
+                {item.rotulo}
+                <Icone
+                  nome="chevron"
+                  class="size-3.5 transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180"
+                />
+                <span
+                  class:list={[
+                    'absolute inset-x-3.5 -bottom-0.5 h-px origin-left bg-ambar-500 transition-transform duration-300 group-hover:scale-x-100',
+                    ativo ? 'scale-x-100' : 'scale-x-0',
+                  ]}
+                />
+              </a>
+
+              <div class="invisible absolute top-full left-0 z-50 pt-3 opacity-0 transition-[opacity,transform] duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 max-lg:hidden lg:-translate-y-1">
+                <ul
+                  class="w-60 border border-tinta-950/12 bg-creme-50 py-2 shadow-2xl shadow-tinta-950/12"
+                >
+                  {item.sub.map((s) => (
+                    <li>
+                      <a
+                        href={url(s.href)}
+                        class="group/i flex items-center justify-between gap-3 px-5 py-2.5 text-sm text-tinta-600 transition-colors hover:bg-creme-100 hover:text-tinta-950"
+                      >
+                        {s.rotulo}
+                        <Icone
+                          nome="setaCurta"
+                          class="size-3.5 text-ambar-500 opacity-0 transition-opacity group-hover/i:opacity-100"
+                        />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          );
+        })
       }
     </nav>
 
@@ -112,20 +165,41 @@ const nav = [
     <nav class="mx-auto max-w-7xl px-4 py-3 sm:px-6" aria-label="Navegação principal (mobile)">
       <ul class="divide-y divide-tinta-950/8">
         {
-          nav.map((item) => (
-            <li>
+          navegacao.map((item) => (
+            <li class="py-1.5">
               <a
-                href={item.href}
+                href={url(item.href)}
                 data-fechar-menu
-                class="display flex items-center justify-between py-3.5 text-2xl text-tinta-950 transition-colors hover:text-ambar-600"
+                aria-current={ehAtivo(caminho, item.href) ? 'page' : undefined}
+                class:list={[
+                  'display flex items-center justify-between py-2.5 text-2xl transition-colors hover:text-ambar-600',
+                  ehAtivo(caminho, item.href) ? 'text-ambar-600' : 'text-tinta-950',
+                ]}
               >
                 {item.rotulo}
                 <Icone nome="setaCurta" class="size-5 text-ambar-500" />
               </a>
+
+              {item.sub && (
+                <ul class="mb-2 flex flex-wrap gap-1.5">
+                  {item.sub.map((s) => (
+                    <li>
+                      <a
+                        href={url(s.href)}
+                        data-fechar-menu
+                        class="block rounded-full border border-tinta-950/15 px-3.5 py-1.5 text-[13px] text-tinta-600 transition-colors hover:border-ambar-500 hover:bg-ambar-400/20 hover:text-tinta-950"
+                      >
+                        {s.rotulo}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))
         }
       </ul>
+
       <div class="mt-4 grid gap-2 text-sm">
         <a
           href={contato.telefoneFixoHref}

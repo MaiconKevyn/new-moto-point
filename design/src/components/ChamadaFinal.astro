@@ -1,0 +1,70 @@
+---
+import Icone from './Icone.astro';
+import { contato, endereco, zap } from '../data/site';
+import { url } from '../data/navegacao';
+---
+
+<!-- Fecho da página: o último empurrão antes do rodapé. -->
+<section class="bg-creme-100 py-16 lg:py-20">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div class="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+      <div class="reveal max-w-xl">
+        <p class="rotulo flex items-center gap-3 text-[10px] text-ambar-600">
+          <span class="block h-px w-8 bg-ambar-500"></span>
+          Fale com a gente
+        </p>
+        <h2 class="display mt-5 text-[2.1rem] text-tinta-950 sm:text-4xl">
+          Sua moto parada é <span class="text-ambar-500 italic">dinheiro parado.</span>
+        </h2>
+        <p class="mt-5 text-[15px] leading-relaxed text-tinta-500">
+          Manda o modelo da moto e o que está acontecendo. A gente responde no horário da loja,
+          passa o orçamento e, se precisar, busca a moto na região.
+        </p>
+      </div>
+
+      <div class="reveal flex flex-col gap-3 sm:flex-row lg:shrink-0">
+        <a
+          href={zap()}
+          target="_blank"
+          rel="noopener"
+          class="group flex items-center justify-center gap-2.5 rounded-full bg-tinta-950 px-7 py-4 font-semibold text-white transition-all hover:bg-ambar-400 hover:text-tinta-950"
+        >
+          <Icone nome="whatsapp" class="size-5" />
+          Chamar no WhatsApp
+          <Icone
+            nome="seta"
+            class="size-4.5 transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
+        <a
+          href={contato.telefoneFixoHref}
+          class="flex items-center justify-center gap-2.5 rounded-full border border-tinta-950/20 px-7 py-4 font-semibold text-tinta-950 transition-all hover:border-ambar-500 hover:bg-ambar-400"
+        >
+          <Icone nome="telefone" class="size-5 text-ambar-600" />
+          {contato.telefoneFixo}
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="reveal mt-12 flex flex-col gap-4 border-t border-tinta-950/14 pt-8 text-sm text-tinta-500 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p class="flex items-start gap-2.5 sm:items-center">
+        <Icone nome="local" class="mt-0.5 size-4.5 shrink-0 text-ambar-500 sm:mt-0" />
+        {endereco.rua}, {endereco.complemento} — {endereco.bairro}, {endereco.cidade}/{endereco.estado}
+      </p>
+      <a
+        href={url('/contato/')}
+        class="group inline-flex shrink-0 items-center gap-2.5 font-semibold text-tinta-950 transition-colors hover:text-ambar-600"
+      >
+        Mapa, horários e canais
+        <span
+          class="flex size-8 items-center justify-center rounded-full border border-tinta-950/20 transition-all duration-300 group-hover:border-ambar-400 group-hover:bg-ambar-400"
+          aria-hidden="true"
+        >
+          <Icone nome="setaCurta" class="size-3.5" />
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
