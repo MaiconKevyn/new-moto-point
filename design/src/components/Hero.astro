@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Icone from './Icone.astro';
+import { url } from '../data/navegacao';
 import { fotos } from '../data/servicos';
 import { site, contato, zap } from '../data/site';
 ---
@@ -56,7 +57,7 @@ import { site, contato, zap } from '../data/site';
             />
           </a>
           <a
-            href="#servicos"
+            href={url('/oficina/#servicos')}
             class="flex items-center justify-center gap-2.5 rounded-full border border-white/25 px-7 py-3.5 font-semibold text-white transition-all hover:border-ambar-400 hover:text-ambar-300"
           >
             Ver os serviços
